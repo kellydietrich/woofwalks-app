@@ -1,0 +1,120 @@
+<%- include('partials/header') -%>
+<div class="container">
+  <div class="row justify-content-center mt-5">
+    <div class="col-6">
+      <h2><%= pet.petName %></h2> <!-- begin displaying pet info -->
+      <img class="img-fluid" src="<%= pet.image%>" />
+      <div class="row justify-content-between">
+        <form
+          class="col-1"
+          action="/pet/likePet/<%= pet.id %>?_method=PUT"
+          method="POST"
+        >
+          <button class="btn btn-primary fa fa-heart" type="submit"></button>
+        </form>
+        <h3 class="col-3">Likes: <%= pet.likes %></h3>
+        <%if(pet.user == user.id){ %>
+        <form
+          action="/pet/deletePet/<%= pet.id %>?_method=DELETE"
+          method="POST"
+          class="col-3"
+        >
+          <button class="btn btn-primary fa fa-trash" type="submit"></button>
+        </form>
+        <%}%>
+      </div>
+    </div>
+    <div class="col-3 mt-5">
+      <p><%= pet.breed %></p>
+    </div>                      <!-- end displaying pet info -->
+    <div class="mt-5">          <!-- Visits section start -->
+      <h2>Schedule a Visit</h2>     <!-- schedule visit start -->
+      <form action="/visit/createVisit/<%=pet._id%>" method="POST"> <!-- create visit assigned to pet's unique ID -->
+        <div class="form-group">          <!-- visit info to db -->
+          <!-- Select a Walker : to-do 7/27-->
+          <label for="walker">Select a Walker:</label> 
+          <select class="form-select" aria-label="Select a Walker" name="walkerSelect">
+            <option selected>Open this select menu</option>
+            <% for(var i=0; i<accepted.length; i++) {%> <!--grab all connections of logged in user -->
+                <option value="<%= accepted[i].walker._id %>"><%= accepted[i].walker.fullName %></option>
+            <% } %>
+          </select>
+          <label for="datetimepicker">Select a Date and Time:</label> 
+          <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
+            <input type="text" id="datetimepicker1Input" name="visitDateTime" class="form-control datetimepicker-input" data-target="#datetimepicker1"/>
+            <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
+              <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+            </div>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>                       <!-- schedule visit end -->
+      <h3>Visits for <%= pet.petName %></h3> <!-- View all scheduled visits start -->
+      <% for(var i=0; i<visits.length; i++) {%> <!-- visit info from db -->
+<div class="card mb-3" style="max-width: 540px;">
+  <div class="row g-0">
+    <div class="col-md-4">
+      <img
+        src="<%= pet.image%>"
+        alt="Image of pet"
+        class="img-fluid rounded-start"
+      />
+    </div>
+    <div class="col-md-8">
+      <div class="card-body">
+        <h5 class="card-title"><%= visits[i].visitDateTime%></h5>
+        <p class="card-text">
+          Walk with <%= visits[i].walkerSelect.fullName %>
+          <%if(visits[i].user == user.id){ %>
+            <form
+              action="/visit/deleteVisit/<%= visits[i]._id %>?_method=DELETE" 
+              method="POST"
+              class="col-3"
+            >
+              <button class="btn btn-primary fa fa-trash" type="submit"></button>
+            </form>
+            <%}%>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>      
+        <% } %>       <!-- View all scheduled visits end -->
+    </div>            <!-- Visits section end -->
+    <div class="mt-5">  <!-- Reports section start -->
+      <h2>Add a Report</h2> <!-- Add report start -->
+      <form action="/report/createReport/<%=pet._id%>" method="POST">
+        <div class="mb-3">
+            <label for="report" class="form-label">Report</label> <!-- report info to db -->
+            <input type="text" class="form-control" id="report" name="report">
+
+            <label for="numberOne" class="form-label">Number One?</label>
+              <input type="checkbox" name="numberOne" value="true">
+              <input type="checkbox" name="numberOne" value="false">
+
+            <label for="numberTwo" class="form-label">Number Two?</label>
+              <input type="checkbox" name="numberTwo" value="true">
+              <input type="checkbox" name="numberTwo" value="false">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+    </div>          <!-- Add report end -->
+    <h3>Reports for <%= pet.petName %></h3>     <!-- List all reports start -->
+    <ul>
+      <% for(var i=0; i<reports.length; i++) {%> <!-- report info from db -->
+        <li class="col-6 justify-content-between mt-5">
+          <%= reports[i].report%>
+          <%= reports[i].numberOne%>
+          <%= reports[i].numberTwo%>
+          <%= reports[i].createdAt%>
+        </li>
+      <% } %>
+    </ul>          <!-- List all reports end -->
+    <div class="col-6 mt-5">
+      <a class="btn btn-primary" href="/profile">Return to Profile</a>
+      <a class="btn btn-primary" href="/feed">Return to Feed</a>
+    </div>
+  </div>
+</div>
+
+<%- include('partials/footer') -%>

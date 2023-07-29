@@ -1,0 +1,97 @@
+<%- include('partials/header') -%>
+<div class="container">
+  <div class="row mt-5">
+      <div class="col-6">
+          <div>
+              <!-- Show user's name, email, and if they are a walker or client -->
+              <p><strong>Name</strong>: <%= user.fullName %></p> 
+              <p><strong>Email</strong>: <%= user.email %></p>
+              <p><strong>Profile type</strong>: <%= user.clientProfile ? 'Client' : 'Walker' %> </p>
+              <a href="/logout" class="col-3 btn btn-primary">Logout</a>
+          </div>
+          <!-- Add a pet start -->
+          <div class="mt-5">
+            <h2>Add a Pet</h2>
+            <form action="/pet/createPet" enctype="multipart/form-data" method="POST">
+              <div class="mb-3">
+                  <label for="petName" class="form-label">Pet's Name</label>
+                  <input type="text" class="form-control" id="petName" name="petName">
+              </div>
+              <div class="mb-3">
+                <label for="breed" class="form-label">Breed</label>
+                <textarea class="form-control" id="breed" name="breed"></textarea>
+              </div>
+              <div class="mb-3">
+                <label for="imgUpload" class="form-label">Image</label>
+                <input type="file" class="form-control" id="imageUpload" name="file">
+              </div>
+              <button type="submit" class="btn btn-primary" value="Upload">Submit</button>
+            </form>
+          </div>
+          <!-- Add pet end --> 
+      </div>
+      <!-- List pets start -->
+      <div class="col-6">
+        <ul class="row list-unstyled"> 
+        <% for(var i=0; i<pets.length; i++) {%> <!--grab all pets of logged in user -->
+          <li class="col-6 justify-content-between mt-5">
+            <a href="/pet/<%= pets[i]._id%>"> <!-- go to specific pet --> 
+              <img class="img-fluid" src="<%= pets[i].image%>"> <!-- pet img -->
+            </a>
+          </li>
+        <% } %>
+        </ul>
+        <div class="row justify-content-center mt-5">
+          <a class="btn btn-primary" href="/feed">See all Walkers</a> <!--go to walker feed-->
+        </div>  
+      </div> 
+      <!-- List pets end -->
+      <!-- Client Requests (for Walkers) start --> 
+      <div class="col-6">
+        <h2>New Requests</h2>
+        <ul class="row list-unstyled">
+        <% for(var i=0; i<requests.length; i++) {%>
+          <% if (requests[i].responded === false && requests[i].accepted === false) { %>
+            <!-- Show this block if the condition is true -->
+            <li class="col-6 justify-content-between mt-5">
+              <p><strong>Client</strong>: <%= requests[i].client.fullName %></p>
+            </li>
+            <form
+            action="/walker/acceptRequest/<%= requests[i].id %>?_method=PUT"
+            method="POST"
+            class="col-3"
+          >
+            <button class="btn btn-primary fa fa-check" type="submit"></button>
+            </form>
+            <form
+            action="/walker/denyRequest/<%= requests[i].id %>?_method=PUT"
+            method="POST"
+            class="col-3"
+          >
+            <button class="btn btn-primary fa fa-check" type="submit"></button>
+            </form>
+          <% } else { %>
+            <!-- Show this block if the condition is false -->
+            <div class="d-none"> Request rejected </div>
+          <% } %>
+        <% } %>
+        </ul> 
+      </div>  
+      <!-- Client Requests (for Walkers) end --> 
+      <!-- List friends start -->
+      <div class="col-6">
+        <h2>Your connections </h2>
+        <ul class="row list-unstyled"> 
+        <% for(var i=0; i<requests.length; i++) {%> <!--grab all connections of logged in user -->
+          <% if (requests[i].type === 'friend' && requests[i].responded && requests[i].accepted) { %>
+          <li class="col-6 justify-content-between mt-5">
+            <%= user.clientProfile ? requests[i].walker.fullName : requests[i].client.fullName %>
+          </li>
+          <% } %>
+        <% } %>
+        </ul>
+      </div> 
+      <!-- List friends end -->
+    </div>
+  </div>
+<%- include('partials/footer') -%>

@@ -1,0 +1,49 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.3.0/mdb.min.js" integrity="sha512-+sCoGPlbKDblqf1cdtmOKPXQOThQgrBYXdkqFvnMijTnPQ6J2NoaqUQNVSzJl/m2ArGFGN0soa/pKKioLBVdwQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+
+
+new tempusDominus.TempusDominus(document.getElementById('datetimepicker1'),
+  {
+    display: {
+      icons: {
+        type: 'icons',
+        time: 'fas fa-clock',
+        date: 'fas fa-calendar',
+        up: 'fas fa-arrow-up',
+        down: 'fas fa-arrow-down',
+        previous: 'fas fa-chevron-left',
+        next: 'fas fa-chevron-right',
+        today: 'fas fa-calendar-check',
+        clear: 'fas fa-trash',
+        close: 'fas fa-times'
+      },
+      sideBySide: false,
+      calendarWeeks: false,
+      viewMode: 'calendar',
+      toolbarPlacement: 'bottom',
+      keepOpen: false,
+      buttons: {
+        today: false,
+        clear: false,
+        close: true
+      },
+      components: {
+        calendar: true,
+        date: true,
+        month: true,
+        year: true,
+        decades: true,
+        clock: true,
+        hours: true,
+        minutes: true,
+        seconds: false
+      },
+      inline: false,
+      theme: 'auto'
+    }
+}
+)
+
+    </script> 
+</body>
+</html>
