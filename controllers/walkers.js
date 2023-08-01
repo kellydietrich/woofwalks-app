@@ -4,8 +4,11 @@ const Request = require("../models/Request");
 module.exports = {
     getWalkers: async (req, res) => { // controls loading the list of available walkers 
       try {
-        let walkers = await User.find({ clientProfile: false }); // grab any users who didn't select client profile
-        res.render("feed.ejs", { walkers: walkers }); // pass that info to the feed view
+        let walkers = await User.find({ clientProfile: false, _id: { $ne: req.user.id } }); // grab any users who didn't select client profile
+        let user = await User.findOne({ _id: req.user.id });
+        console.log(req.user)
+        console.log(walkers)
+        res.render("feed.ejs", { walkers: walkers, user: user }); // pass that info to the feed view
       } catch (err) {
         console.log(err);
       }

@@ -17,6 +17,7 @@ module.exports = {
       const reports = await Report.find({pet: req.params.id}).sort({ createdAt: "desc" }).lean(); // grab all reports for that pet, from oldest to newest
       const visits = await Visit.find({pet: req.params.id}).sort({ createdAt: "desc" }).populate('walkerSelect').lean(); // find all scheduled visits for that pet, sorted from oldest to newest (based on date created 7/26 todo)
       const accepted = await Request.find({ sender: req.user.id, accepted: true }).populate('receiver').lean(); // get all walkers available to schedule a visit with pet
+      console.log(accepted)
       res.render("pet.ejs", { pet: pet, user: req.user, reports: reports, visits: visits, accepted: accepted }); // take all pet, report, visit, walker data gathered and render the view
     } catch (err) {
       console.log(err);

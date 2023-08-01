@@ -31,15 +31,15 @@
       <h2>Schedule a Visit</h2>     <!-- schedule visit start -->
       <form action="/visit/createVisit/<%=pet._id%>" method="POST"> <!-- create visit assigned to pet's unique ID -->
         <div class="form-group">          <!-- visit info to db -->
-          <!-- Select a Walker : to-do 7/27-->
+          <!-- Select a Walker start -->
           <label for="walker">Select a Walker:</label> 
           <select class="form-select" aria-label="Select a Walker" name="walkerSelect">
             <option selected>Open this select menu</option>
-            <% for(var i=0; i<accepted.length; i++) {%> <!--grab all connections of logged in user -->
-                <option value="<%= accepted[i].walker._id %>"><%= accepted[i].walker.fullName %></option>
+            <% for(var i=0; i<accepted.length; i++) {%> <!--grab all connections of logged in user to schedule a walk-->
+                <option value="<%= accepted[i].receiver._id %>"><%= accepted[i].receiver.fullName.split(' ')[0] %></option>
             <% } %>
           </select>
-          <label for="datetimepicker">Select a Date and Time:</label> 
+          <label for="datetimepicker">Select a Date and Time:</label>  <!-- select date/time -->
           <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
             <input type="text" id="datetimepicker1Input" name="visitDateTime" class="form-control datetimepicker-input" data-target="#datetimepicker1"/>
             <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
@@ -48,7 +48,7 @@
           </div>
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
-      </form>                       <!-- schedule visit end -->
+      </form>                      <!-- schedule visit end -->
       <h3>Visits for <%= pet.petName %></h3> <!-- View all scheduled visits start -->
       <% for(var i=0; i<visits.length; i++) {%> <!-- visit info from db -->
 <div class="card mb-3" style="max-width: 540px;">
@@ -64,7 +64,7 @@
       <div class="card-body">
         <h5 class="card-title"><%= visits[i].visitDateTime%></h5>
         <p class="card-text">
-          Walk with <%= visits[i].walkerSelect.fullName %>
+          Walk with <%= visits[i].walkerSelect.fullName.split(' ')[0] %>
           <%if(visits[i].user == user.id){ %>
             <form
               action="/visit/deleteVisit/<%= visits[i]._id %>?_method=DELETE" 
