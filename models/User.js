@@ -5,10 +5,7 @@ const UserSchema = new mongoose.Schema({
   fullName: { type: String, unique: false },
   email: { type: String, unique: true },
   clientProfile: {type: Boolean, unique: false},
-  connections: {
-    type: Object,
-    required: false,
-  },
+  connections: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
   password: String,
 });
 

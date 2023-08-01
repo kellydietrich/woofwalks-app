@@ -6,21 +6,6 @@ const Report = require("../models/Report");
 const Visit = require("../models/Visit"); // use visit, report, request, user, and pet models for these controllers
 
 module.exports = {
-  getProfile: async (req, res) => { // controls loading the logged-in user's profile
-    try {
-      // Since we have a session, each request (req) contains the 
-      // logged-in users info: req.user
-      // note: console.log(req.user) to see everything
-      let pets = await Pet.find({ user: req.user.id }); // Grabbing just the pets of the logged-in user 
-      let requests = await Request.find({ receiver: req.user.id }).populate('sender').populate('receiver'); // Grabbing the client requests for the logged-in user (walker) + user info for that client. 7/28 -> grabbing both client and walker info
-      console.log(requests) 
-      console.log(req.user)
-      //Sending pet & request data from MongoDB and user data to ejs template
-      res.render("profile.ejs", { pets: pets, user: req.user, requests: requests }); 
-    } catch (err) {
-      console.log(err);
-    }
-  },
   getPet: async (req, res) => { // controls showing the info on individual pets (currently found by clicking pet's pic in profile 7/26)
     try {
       // id parameter comes from the pet routes

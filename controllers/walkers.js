@@ -29,6 +29,19 @@ module.exports = {
     },
     acceptRequest: async (req, res) => { // controls accepting the client request as a walker
       try {
+        let request = await Request.findById({ _id: req.params.id }).populate('sender', 'receiver');
+        const sender = request.sender
+        const receiver = request.receiver
+        await User.findByIdAndUpdate(
+          sender._id,
+          { $push: { connections: receiver } }, // Push the receiver's ID into the sender's connections array
+          { new: true }
+        )
+        await User.findByIdAndUpdate(
+          receiver._id,
+          { $push: { connections: sender } }, // Push the sender's ID into the receiver's connections array
+          { new: true }
+        )
         await Request.findOneAndUpdate(
           { _id: req.params.id }, // grab id from the accept button / request routes
           {

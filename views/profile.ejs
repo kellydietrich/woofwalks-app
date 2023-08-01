@@ -54,17 +54,17 @@
           <% if (requests[i].responded === false && requests[i].accepted === false) { %>
             <!-- Show this block if the condition is true -->
             <li class="col-6 justify-content-between mt-5">
-              <p><strong>Client</strong>: <%= requests[i].client.fullName %></p>
+              <p><strong>Sender</strong>: <%= requests[i].sender.fullName %></p>
             </li>
             <form
-            action="/walker/acceptRequest/<%= requests[i].id %>?_method=PUT"
+            action="/walker/acceptRequest/<%= requests[i]._id %>?_method=PUT"
             method="POST"
             class="col-3"
           >
             <button class="btn btn-primary fa fa-check" type="submit"></button>
             </form>
             <form
-            action="/walker/denyRequest/<%= requests[i].id %>?_method=PUT"
+            action="/walker/denyRequest/<%= requests[i]._id %>?_method=PUT"
             method="POST"
             class="col-3"
           >
@@ -72,7 +72,7 @@
             </form>
           <% } else { %>
             <!-- Show this block if the condition is false -->
-            <div class="d-none"> Request rejected </div>
+            <div class="d-none"></div>
           <% } %>
         <% } %>
         </ul> 
@@ -80,17 +80,19 @@
       <!-- Client Requests (for Walkers) end --> 
       <!-- List friends start -->
       <div class="col-6">
-        <h2>Your connections </h2>
-        <ul class="row list-unstyled"> 
-        <% for(var i=0; i<requests.length; i++) {%> <!--grab all connections of logged in user -->
-          <% if (requests[i].type === 'friend' && requests[i].responded && requests[i].accepted) { %>
-          <li class="col-6 justify-content-between mt-5">
-            <%= user.clientProfile ? requests[i].walker.fullName : requests[i].client.fullName %>
-          </li>
-          <% } %>
-        <% } %>
+        <h2>Your connections</h2>
+        <ul class="row list-unstyled">
+          <% const uniqueConnections = new Set(); %>
+          <% user.connections.forEach(function(connection) { %>
+            <% if (!uniqueConnections.has(connection._id.toString())) { %>
+              <% uniqueConnections.add(connection._id.toString()); %>
+              <li>
+                <strong>Person:</strong> <%= connection.fullName %> (Email: <%= connection.email %>)
+              </li>
+            <% } %>
+          <% }); %>
         </ul>
-      </div> 
+      </div>
       <!-- List friends end -->
     </div>
   </div>
