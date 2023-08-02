@@ -7,7 +7,7 @@
             <img class="img-fluid" src="#" alt="walker picture"> <!-- Walker search result, send request to connect -->
               <%= walkers[i].fullName%> 
               <form
-              action="/walker/requestWalker/<%= walkers[i].id %>?_method=PUT"
+              action="/request/requestConnect/<%= walkers[i].id %>"
               method="POST"
               class="col-3"
             >

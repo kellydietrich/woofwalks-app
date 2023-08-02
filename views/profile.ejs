@@ -49,6 +49,7 @@
       <!-- Client Requests (for Walkers) start --> 
       <div class="col-6">
         <h2>New Requests</h2>
+        <h3>Connection Requests</h3>
         <ul class="row list-unstyled">
         <% for(var i=0; i<requests.length; i++) {%>
           <% if (requests[i].responded === false && requests[i].accepted === false) { %>
@@ -57,14 +58,14 @@
               <p><strong>Sender</strong>: <%= requests[i].sender.fullName %></p>
             </li>
             <form
-            action="/walker/acceptRequest/<%= requests[i]._id %>?_method=PUT"
+            action="/request/acceptConnect/<%= requests[i]._id %>?_method=PUT"
             method="POST"
             class="col-3"
           >
             <button class="btn btn-primary fa fa-check" type="submit"></button>
             </form>
             <form
-            action="/walker/denyRequest/<%= requests[i]._id %>?_method=PUT"
+            action="/request/denyConnect/<%= requests[i]._id %>?_method=PUT"
             method="POST"
             class="col-3"
           >
@@ -76,6 +77,30 @@
           <% } %>
         <% } %>
         </ul> 
+        <h3>Visit Requests</h3>
+        <ul class="row list-unstyled">
+          <% for(var i=0; i<visits.length; i++) {%>
+            <% if(visits[i].accepted === false) {%>
+              <li class="col-6 justify-content-between mt-5">
+                <p><strong>Walk with</strong>: <%= visits[i].user.fullName %></p>
+              </li>
+              <form
+              action="/visit/acceptVisit/<%= visits[i]._id %>?_method=PUT"
+              method="POST"
+              class="col-3"
+            >
+              <button class="btn btn-primary fa fa-check" type="submit"></button>
+              </form>
+              <form
+              action="/visit/deleteVisit/<%= visits[i]._id %>?_method=DELETE"
+              method="POST"
+              class="col-3"
+            >
+              <button class="btn btn-primary fa fa-check" type="submit"></button>
+              </form>
+              <% } %>
+            <% } %>
+          </ul> 
       </div>  
       <!-- Client Requests (for Walkers) end --> 
       <!-- List friends start -->
@@ -94,6 +119,7 @@
         </ul>
       </div>
       <!-- List friends end -->
+      <!-- To-Do 8/1: Add list of ACCEPTED scheduled visits -->
     </div>
   </div>
 <%- include('partials/footer') -%>

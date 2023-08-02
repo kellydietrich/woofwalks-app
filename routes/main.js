@@ -3,13 +3,13 @@ const router = express.Router();
 const authController = require("../controllers/auth");
 const homeController = require("../controllers/home");
 const petsController = require("../controllers/pets");
-const walkersController = require("../controllers/walkers");
+const requestsController = require("../controllers/requests");
 const { ensureAuth } = require("../middleware/auth");
 
 //Main Routes - simplified for now
 router.get("/", homeController.getIndex);
 router.get("/profile", ensureAuth, homeController.getProfile);
-router.get("/feed", ensureAuth, walkersController.getWalkers);
+router.get("/feed", ensureAuth, requestsController.getWalkers);
 
 //Routes for user login/signup
 router.get("/login", authController.getLogin);

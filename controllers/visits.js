@@ -7,16 +7,31 @@ const Request = require("../models/Request")
 module.exports = {
   createVisit: async (req, res) => { // controls creating a visit (currently located on pet's page /pet/:id)
     try {
-      // To-Do 7/26: find all walkers that have accepted requests
       await Visit.create({
         walkerSelect: req.body.walkerSelect, // grab walker's unique id from selection menu
         visitDateTime: req.body.visitDateTime, // grab date & time from datepicker
         user: req.user.id, // grab user scheduling the visit
         pet: req.params.id, // grab pet visit is being scheduled for 
+        accepted: false,
       });
       console.log(req.body)
       console.log("Visit has been scheduled!");
       res.redirect("/pet/"+req.params.id); // reload pet's page after success
+    } catch (err) {
+      console.log(err);
+    }
+  },
+  acceptVisit: async (req, res) => { // controls creating a visit (currently located on pet's page /pet/:id)
+    try {
+      await Visit.findOneAndUpdate(
+        { _id: req.params.id }, // grab id from the accept button / visit routes
+        {
+          $set: { accepted: true },
+        },
+        { new: true }
+      )
+      console.log("Visit has been scheduled!");
+      res.redirect("/profile"); // reload profile page after success
     } catch (err) {
       console.log(err);
     }

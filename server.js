@@ -12,7 +12,8 @@ const mainRoutes = require("./routes/main");
 const petRoutes = require("./routes/pets"); // routes shown in app.use() section below
 const reportRoutes = require("./routes/reports");
 const visitRoutes = require("./routes/visits");
-const walkerRoutes = require("./routes/walkers");
+// const walkerRoutes = require("./routes/walkers");
+const requestRoutes = require("./routes/requests");
 
 
 //Use .env file in config folder
@@ -63,7 +64,8 @@ app.use("/", mainRoutes);
 app.use("/pet", petRoutes);
 app.use("/report", reportRoutes);
 app.use("/visit", visitRoutes);
-app.use("/walker", walkerRoutes);
+// app.use("/walker", walkerRoutes);
+app.use("/request", requestRoutes);
 
 //Server Running
 app.listen(process.env.PORT, () => {
