@@ -17,7 +17,7 @@ const VisitSchema = new mongoose.Schema({
   //   type: Boolean,
   //   required: true,
   // },
-  user: {
+  client: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
   },
@@ -31,6 +31,10 @@ const VisitSchema = new mongoose.Schema({
   },
   accepted: {
     type: Boolean, 
+    unique: false,
+  },
+  pending: {
+    type: Boolean,
     unique: false,
   },
   canceled: {

@@ -13,12 +13,8 @@ const RequestSchema = new mongoose.Schema({
     type: Boolean, 
     unique: false,
   },
-  rejected: {
-    type: Boolean, 
-    unique: false,
-  },
-  responded: {
-    type: Boolean, 
+  pending: {
+    type: Boolean,
     unique: false,
   },
   type: {

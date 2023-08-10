@@ -13,7 +13,7 @@
           <button class="btn btn-primary fa fa-heart" type="submit"></button>
         </form>
         <h3 class="col-3">Likes: <%= pet.likes %></h3>
-        <%if(pet.user == user.id){ %>
+        <%if(pet.client == user.id){ %>
         <form
           action="/pet/deletePet/<%= pet.id %>?_method=DELETE"
           method="POST"
@@ -55,7 +55,7 @@
   <div class="row g-0">
     <div class="col-md-4">
       <img
-        src="<%= pet.image%>"
+        src="<%= pet.image %>"
         alt="Image of pet"
         class="img-fluid rounded-start"
       />
@@ -64,14 +64,15 @@
       <div class="card-body">
         <h5 class="card-title"><%= visits[i].visitDateTime%></h5>
         <p class="card-text">
-          Walk with <%= visits[i].walkerSelect.fullName.split(' ')[0] %>
-          <%if(visits[i].user == user.id){ %>
+          Walker: <%= visits[i].walkerSelect.fullName.split(' ')[0] %>
+          <button class="btn btn-light fa fa-check <%= !visits[i].pending ? 'd-none' : '' %>"> Pending</button>
+          <%if(visits[i].client == user.id){ %>
             <form
               action="/visit/deleteVisit/<%= visits[i]._id %>?_method=DELETE" 
               method="POST"
               class="col-3"
             >
-              <button class="btn btn-primary fa fa-trash" type="submit"></button>
+              <button class="btn btn-primary fa fa-trash" type="submit">Cancel</button>
             </form>
             <%}%>
         </p>
@@ -81,24 +82,7 @@
 </div>      
         <% } %>       <!-- View all scheduled visits end -->
     </div>            <!-- Visits section end -->
-    <div class="mt-5">  <!-- Reports section start -->
-      <h2>Add a Report</h2> <!-- Add report start -->
-      <form action="/report/createReport/<%=pet._id%>" method="POST">
-        <div class="mb-3">
-            <label for="report" class="form-label">Report</label> <!-- report info to db -->
-            <input type="text" class="form-control" id="report" name="report">
 
-            <label for="numberOne" class="form-label">Number One?</label>
-              <input type="checkbox" name="numberOne" value="true">
-              <input type="checkbox" name="numberOne" value="false">
-
-            <label for="numberTwo" class="form-label">Number Two?</label>
-              <input type="checkbox" name="numberTwo" value="true">
-              <input type="checkbox" name="numberTwo" value="false">
-        </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
-      </form>
-    </div>          <!-- Add report end -->
     <h3>Reports for <%= pet.petName %></h3>     <!-- List all reports start -->
     <ul>
       <% for(var i=0; i<reports.length; i++) {%> <!-- report info from db -->

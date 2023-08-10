@@ -34,7 +34,7 @@ module.exports = {
         likes: 0,
         cloudinaryId: result.public_id,
         breed: req.body.breed,
-        user: req.user.id,
+        client: req.user.id,
       });
       console.log("Pet has been added!"); // log success 
       res.redirect("/profile"); // reload user's profile to reflect the changes -> todo 7/26

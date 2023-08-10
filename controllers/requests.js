@@ -18,8 +18,7 @@ module.exports = {
         sender: req.user.id, // grab user submitting the request
         receiver: req.params.id, // grab walker request is for 
         type: 'friend',
-        rejected: false, 
-        responded: false,
+        pending: true,
         accepted: false,
       });
         console.log("Walker Request Sent!"); // log success
@@ -30,7 +29,7 @@ module.exports = {
     },
     acceptConnect: async (req, res) => { // controls accepting the client request as a walker
       try {
-        let request = await Request.findById({ _id: req.params.id }).populate('sender', 'receiver');
+        let request = await Request.findById({ _id: req.params.id }).populate('sender receiver');
         const sender = request.sender
         const receiver = request.receiver
         await User.findByIdAndUpdate(
@@ -46,7 +45,7 @@ module.exports = {
         await Request.findOneAndUpdate(
           { _id: req.params.id }, // grab id from the accept button / request routes
           {
-            $set: { accepted: true, responded: true },
+            $set: { accepted: true, pending: false },
           }
         );
         console.log("Request Accepted!");
@@ -60,7 +59,7 @@ module.exports = {
         await Request.findOneAndUpdate( 
           { _id: req.params.id },     // grab id from the deny button / request routes
           {
-            $set: { rejected: true, responded: true },
+            $set: { accepted: false, pending: false },
           }
         );
         console.log("Request Denied!");

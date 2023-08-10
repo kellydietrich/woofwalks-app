@@ -12,4 +12,7 @@ router.put("/acceptVisit/:id", visitsController.acceptVisit);
 //Enables user to delete visit. In controller, uses POST model to delete visit document from MongoDB collection
 router.delete("/deleteVisit/:id", visitsController.deleteVisit); 
 
+//Route to start a visit
+router.get("/:id", ensureAuth, visitsController.startVisit);
+
 module.exports = router;

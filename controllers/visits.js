@@ -10,12 +10,13 @@ module.exports = {
       await Visit.create({
         walkerSelect: req.body.walkerSelect, // grab walker's unique id from selection menu
         visitDateTime: req.body.visitDateTime, // grab date & time from datepicker
-        user: req.user.id, // grab user scheduling the visit
+        client: req.user.id, // grab user scheduling the visit
         pet: req.params.id, // grab pet visit is being scheduled for 
         accepted: false,
+        pending: true,
       });
       console.log(req.body)
-      console.log("Visit has been scheduled!");
+      console.log("Visit has been requested!");
       res.redirect("/pet/"+req.params.id); // reload pet's page after success
     } catch (err) {
       console.log(err);
@@ -26,7 +27,7 @@ module.exports = {
       await Visit.findOneAndUpdate(
         { _id: req.params.id }, // grab id from the accept button / visit routes
         {
-          $set: { accepted: true },
+          $set: { accepted: true, pending: false },
         },
         { new: true }
       )
@@ -43,7 +44,20 @@ module.exports = {
       let pet = await Pet.findById(visit.pet);
       await Visit.remove({ _id: req.params.id }); // remove visit whose id matches the id from the delete request params
       console.log("Deleted Scheduled Visit");
-      res.redirect(`/pet/${pet._id}`);
+      res.redirect("/profile"); // to-do 8/2: update deleteVisit for walkers to also delete a visit
+    } catch (err) {
+      console.log(err);
+    }
+  },
+  startVisit: async (req, res) => {
+    try {
+      // id parameter comes from the visit routes
+      // router.get("/:id", ensureAuth, visitsController.startVisit);
+      // ex. http://localhost:2121/visit/27981had972392hs7s8d
+      // id === 27981had972392hs7s8d
+      let current = await Visit.findById({ _id: req.params.id }).populate('client pet walkerSelect');
+      console.log(current);
+      res.render("visit.ejs", { current: current, user: req.user }); // take all pet, report, visit, walker data gathered and render the view
     } catch (err) {
       console.log(err);
     }
