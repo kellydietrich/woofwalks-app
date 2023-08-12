@@ -9,14 +9,18 @@ const ReportSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Pet",
   },
-  // visitId: {
-  //   type: mongoose.Schema.Types.ObjectId,
-  //   ref: "Visit",
-  // },
-  // images: {
-  //   type: Object,
-  //   require: true,
-  // },
+  visitId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Visit",
+  },
+  image: {
+    type: String,
+    require: true,
+  },
+  cloudinaryId: {
+    type: String,
+    require: true,
+  },
   numberOne: {
     type: Boolean,
     required: true,

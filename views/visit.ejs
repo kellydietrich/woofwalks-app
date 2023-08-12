@@ -6,20 +6,24 @@
     </div>
     <div class="mt-5">  <!-- Add Report start -->
         <h2>Add a Report</h2> <!-- Add report start -->
-        <form action="/report/createReport/<%=current._id%>" method="POST">
-          <div class="mb-3">
-              <label for="report" class="form-label">Report</label> <!-- report info to db -->
-              <input type="text" class="form-control" id="report" name="report">
-  
-              <label for="numberOne" class="form-label">Number One?</label>
+        <form action="/report/createReport/<%=current._id%>" enctype="multipart/form-data" method="POST">
+              <div class="mb-3">
+                <label for="report" class="form-label">Report</label> <!-- report info to db -->
+                <input type="text" class="form-control" id="report" name="report">
+              </div>
+              <div class="mb-3">
+                <label for="numberOne" class="form-label">Number One?</label>
                 <input type="checkbox" name="numberOne" value="true">
                 <input type="checkbox" name="numberOne" value="false">
-  
-              <label for="numberTwo" class="form-label">Number Two?</label>
+                <label for="numberTwo" class="form-label">Number Two?</label>
                 <input type="checkbox" name="numberTwo" value="true">
                 <input type="checkbox" name="numberTwo" value="false">
-          </div>
-          <button type="submit" class="btn btn-primary">Submit</button>
+              </div>
+              <div class="mb-3">
+                <label for="imgUpload" class="form-label">Upload Image</label>
+                <input type="file" class="form-control" id="imageUpload" name="file">
+              </div>
+              <button type="submit" class="btn btn-primary" value="Upload">Submit</button>
         </form>
       </div>          <!-- Add Report end -->
 </main>

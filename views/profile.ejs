@@ -119,7 +119,7 @@
         </ul>      <!-- List friends end -->
         <h2>Scheduled Visits</h2>
         <% for(var i=0; i<visits.length; i++) {%> <!-- List all scheduled visits (Walker) start-->
-          <% if(visits[i].accepted === true) {%>
+          <% if(visits[i].accepted && !visits[i].completed) {%>
           <div class="card mb-3" style="max-width: 340px;">
             <div class="row g-0">
               <div class="col-md-4">
@@ -152,7 +152,34 @@
                   <% } %>       <!-- View all scheduled visits (for Walker) end -->
       </div>
       <% } %> 
-      <!-- To-Do 8/1: Add list of ACCEPTED scheduled visits -->
+      <h2>Past Visits</h2> // To-Do 8/11 - Change to list all reports of past visits
+      <% for(var i=0; i<visits.length; i++) {%> <!-- List all past visits (Walker) start-->
+        <% if(visits[i].accepted && visits[i].completed) {%>
+        <div class="card mb-3" style="max-width: 340px;">
+          <div class="row g-0">
+            <div class="col-md-4">
+              <img
+                src="<%= visits[i].pet.image%>"
+                alt="Image of pet"
+                class="img-fluid rounded-start"
+              />
+            </div>
+            <div class="col-md-8">
+              <div class="card-body">
+                <h5 class="card-title"><%= visits[i].visitDateTime %></h5>
+                <p class="card-text">
+                  Walk with <%= visits[i].pet.petName %>
+                  <%if(visits[i].walkerSelect.id === user.id){ %>
+                    <a href="/report/<%= visits[i]._id%>" class="btn btn-success fa fa-check">View Report</a>
+                    <%}%>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>      
+                <% } %>       <!-- View all past visits (for Walker) end -->
+    </div>
+    <% } %> 
     </div>
 </div>
 <%- include('partials/footer') -%>

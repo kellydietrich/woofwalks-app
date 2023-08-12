@@ -41,6 +41,10 @@ const VisitSchema = new mongoose.Schema({
     type: Boolean, 
     unique: false,
   },
+  completed: {
+    type: Boolean, 
+    unique: false,
+  },
   visitDateTime: {
     type: String,
     required: true,

@@ -1,0 +1,16 @@
+<%- include('partials/header') -%>
+  <div class="container">
+    <div class="row justify-content-center mt-5">
+        <p>Report: <%= report.report %> </p> </ br>
+        <p>Number One: <%= report.numberOne %> </p> </ br>
+        <p>Number Two: <%= report.numberTwo %> </p> </ br>
+        <div class="col-md-4">
+            <img
+              src="<%= report.image %>"
+              alt="Image of pet"
+              class="img-fluid rounded-start"
+            />
+        </div>
+    </div>
+  </div>  
+<%- include('partials/footer') -%>

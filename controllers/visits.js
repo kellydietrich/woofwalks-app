@@ -14,6 +14,7 @@ module.exports = {
         pet: req.params.id, // grab pet visit is being scheduled for 
         accepted: false,
         pending: true,
+        completed: false,
       });
       console.log(req.body)
       console.log("Visit has been requested!");
